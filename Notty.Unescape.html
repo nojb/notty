@@ -1,0 +1,194 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Notty.Render.html">
+<link rel="Up" href="Notty.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Notty" rel="Chapter" href="Notty.html">
+<link title="Notty_unix" rel="Chapter" href="Notty_unix.html">
+<link title="Notty_lwt" rel="Chapter" href="Notty_lwt.html"><link title="Input events" rel="Section" href="#1_Inputevents">
+<link title="Decoding filter" rel="Section" href="#1_Decodingfilter">
+<link title="Low-level parsing" rel="Section" href="#1_Lowlevelparsing">
+<title>Notty.Unescape</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Notty.Render.html" title="Notty.Render">Previous</a>
+&nbsp;<a class="up" href="Notty.html" title="Notty">Up</a>
+&nbsp;</div>
+<h1>Module <a href="type_Notty.Unescape.html">Notty.Unescape</a></h1>
+
+<pre><span class="keyword">module</span> Unescape: <code class="code"><span class="keyword">sig</span></code> <a href="Notty.Unescape.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info module top">
+Parse and decode escape sequences in character streams.<br>
+</div>
+<hr width="100%">
+<br>
+<h1 id="1_Inputevents">Input events</h1><br>
+
+<pre><span id="TYPEkey"><span class="keyword">type</span> <code class="type"></code>key</span> = <code class="type">[ `Arrow of [ `Down | `Left | `Right | `Up ]<br>       | `Backspace<br>       | `Delete<br>       | `End<br>       | `Enter<br>       | `Escape<br>       | `Function of int<br>       | `Home<br>       | `Insert<br>       | `Page of [ `Down | `Up ]<br>       | `Tab ]</code> </pre>
+<div class="info ">
+A selection of extra keys on the keyboard.<br>
+</div>
+
+
+<pre><span id="TYPEbutton"><span class="keyword">type</span> <code class="type"></code>button</span> = <code class="type">[ `Left | `Middle | `Right | `Scroll of [ `Down | `Up ] ]</code> </pre>
+<div class="info ">
+Mouse buttons.<br>
+</div>
+
+
+<pre><span id="TYPEmods"><span class="keyword">type</span> <code class="type"></code>mods</span> = <code class="type">[ `Ctrl | `Meta | `Shift ] list</code> </pre>
+<div class="info ">
+Modifier state.<br>
+</div>
+
+
+<pre><span id="TYPEevent"><span class="keyword">type</span> <code class="type"></code>event</span> = <code class="type">[ `Key of<br>           [ `Arrow of [ `Down | `Left | `Right | `Up ]<br>           | `Backspace<br>           | `Delete<br>           | `End<br>           | `Enter<br>           | `Escape<br>           | `Function of int<br>           | `Home<br>           | `Insert<br>           | `Page of [ `Down | `Up ]<br>           | `Tab<br>           | `Uchar of <a href="Notty.html#TYPEuchar">uchar</a> ] * <a href="Notty.Unescape.html#TYPEmods">mods</a><br>       | `Mouse of<br>           [ `Drag | `Press of <a href="Notty.Unescape.html#TYPEbutton">button</a> | `Release ] * (int * int) *<br>           <a href="Notty.Unescape.html#TYPEmods">mods</a> ]</code> </pre>
+<div class="info ">
+Things that terminals say to applications.
+<p>
+
+      <ul>
+<li><code class="code"><span class="keywordsign">`</span><span class="constructor">Key</span> (k, mods)</code> is keyboard input.
+<p>
+
+         <code class="code">k</code> is either a special <a href="Notty.Unescape.html#TYPEkey">key</a>, or <code class="code"><span class="keywordsign">`</span><span class="constructor">Uchar</span> u</code> where <code class="code">u</code> is
+         <a href="Notty.html#TYPEuchar"><code class="code">uchar</code></a>. This value is guaranteed not to be a control
+         character, and is safe to use in constructing images.
+<p>
+
+         <code class="code">mods</code> are the extra <a href="Notty.Unescape.html#TYPEmods">modifier keys</a>.
+<p>
+
+         </li>
+<li><code class="code"><span class="keywordsign">`</span><span class="constructor">Mouse</span> (event, (x, y), mods)</code> is mouse input.
+<p>
+
+         <code class="code">event</code> is the actual mouse event: <a href="Notty.Unescape.html#TYPEbutton"><code class="code">button</code></a> press, release,
+         or motion of the mouse with buttons depressed.
+<p>
+
+         <code class="code">(x, y)</code> are column and row position of the mouse. The origin is
+         <code class="code">(1,1)</code>, the upper-left corner.
+<p>
+
+         <b>Note</b> Every <code class="code"><span class="keywordsign">`</span><span class="constructor">Press</span>(<span class="keywordsign">`</span><span class="constructor">Left</span><span class="keywordsign">|</span><span class="keywordsign">`</span><span class="constructor">Middle</span><span class="keywordsign">|</span><span class="keywordsign">`</span><span class="constructor">Right</span>)</code> generates a corresponding
+         <code class="code"><span class="keywordsign">`</span><span class="constructor">Release</span></code>, but there is no portable way to detect which button was
+         released. <code class="code"><span class="keywordsign">`</span><span class="constructor">Scroll</span>(<span class="keywordsign">`</span><span class="constructor">Up</span><span class="keywordsign">|</span><span class="keywordsign">`</span><span class="constructor">Down</span>)</code> presses are not followed by releases. </li>
+</ul>
+
+<p>
+
+      Terminal input protocols are historical cruft, and heavily overload the
+      ASCII range. For instance:
+      <ul>
+<li>It is impossible to distinguish lower- and upper-case ASCII characters
+         if <b>Ctrl</b> is pressed;</li>
+<li>several combinations of key-presses are aliased as special keys; and</li>
+<li>in a UTF-8 encoded stream, there is no representation for non-ASCII
+         characters with modifier keys.</li>
+</ul>
+
+<p>
+
+      This means that many values that inhabit the <code class="code">event</code> type are impossible,
+      while some reflect multiple different user actions. Limitations include:
+<p>
+
+      <ul>
+<li><code class="code"><span class="keywordsign">`</span><span class="constructor">Shift</span></code> is reported only with special keys, and not all of them.</li>
+<li><code class="code"><span class="keywordsign">`</span><span class="constructor">Meta</span></code> and <code class="code"><span class="keywordsign">`</span><span class="constructor">Control</span></code> are reported with mouse events, key events with
+         special keys, and key events with values in the ranges <code class="code">0x40-0x5f</code>
+         (<code class="code">@</code> to <code class="code">_</code>) and <code class="code">0x60-0x7e</code> (<code class="code"><span class="keywordsign">`</span></code> to <code class="code">~</code>). If <b>Ctrl</b> is pressed, the higher
+         range is mapped into the lower range.</li>
+<li>Terminals will variously under-report modifier key state.</li>
+</ul>
+
+<p>
+
+      Perform own experiments before relying on elaborate key combinations.<br>
+</div>
+
+<br>
+<h1 id="1_Decodingfilter">Decoding filter</h1>
+<p>
+
+      Simple IO-less terminal input processor. It can be used for building
+      custom terminal input abstractions.<br>
+
+<pre><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> </pre>
+<div class="info ">
+Input decoding filter.
+<p>
+
+      The filter should be <a href="Notty.Unescape.html#VALinput">fed</a> strings, which it first decodes from
+      UTF-8, and then extracts the input events.
+<p>
+
+      Malformed UTF-8 input bytes and unrecognized escape sequences are silently
+      discarded.<br>
+</div>
+
+
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">unit -> <a href="Notty.Unescape.html#TYPEt">t</a></code></pre><div class="info ">
+<code class="code">create ()</code> is a new, empty filter.<br>
+</div>
+
+<pre><span id="VALinput"><span class="keyword">val</span> input</span> : <code class="type"><a href="Notty.Unescape.html#TYPEt">t</a> -> bytes -> int -> int -> unit</code></pre><div class="info ">
+<code class="code">input t buffer i len</code> feeds <code class="code">len</code> bytes of <code class="code">string</code> into <code class="code">t</code>, starting
+      from position <code class="code">len</code>.
+<p>
+
+      <code class="code">len = 0</code> signals the end of input.
+<p>
+
+      <code class="code">buffer</code> is immediately processed and can be reused after the call
+      returns.<br>
+</div>
+
+<pre><span id="VALnext"><span class="keyword">val</span> next</span> : <code class="type"><a href="Notty.Unescape.html#TYPEt">t</a> -><br>       [ `Await<br>       | `End<br>       | `Key of<br>           [ `Arrow of [ `Down | `Left | `Right | `Up ]<br>           | `Backspace<br>           | `Delete<br>           | `End<br>           | `Enter<br>           | `Escape<br>           | `Function of int<br>           | `Home<br>           | `Insert<br>           | `Page of [ `Down | `Up ]<br>           | `Tab<br>           | `Uchar of <a href="Notty.html#TYPEuchar">uchar</a> ] * <a href="Notty.Unescape.html#TYPEmods">mods</a><br>       | `Mouse of<br>           [ `Drag | `Press of <a href="Notty.Unescape.html#TYPEbutton">button</a> | `Release ] * (int * int) *<br>           <a href="Notty.Unescape.html#TYPEmods">mods</a> ]</code></pre><div class="info ">
+<code class="code">next t</code> is the next event in the filter's input stream:
+<p>
+
+      <ul>
+<li><code class="code"><span class="keywordsign">#</span>event</code>, an input <a href="Notty.Unescape.html#TYPEevent"><code class="code">event</code></a>.</li>
+<li><code class="code"><span class="keywordsign">`</span><span class="constructor">Await</span></code> if the filter needs more <a href="Notty.Unescape.html#VALinput">input</a>.</li>
+<li><code class="code"><span class="keywordsign">`</span><span class="constructor">End</span></code> if the input had ended.</li>
+</ul>
+<br>
+</div>
+
+<pre><span id="VALpending"><span class="keyword">val</span> pending</span> : <code class="type"><a href="Notty.Unescape.html#TYPEt">t</a> -> bool</code></pre><div class="info ">
+<code class="code">pending t</code> is <code class="code"><span class="keyword">true</span></code> if a call to <code class="code">next</code>, without any intervening input,
+      would <em>not</em> return <code class="code"><span class="keywordsign">`</span><span class="constructor">Await</span></code>.<br>
+</div>
+<br>
+<h1 id="1_Lowlevelparsing">Low-level parsing</h1>
+<p>
+
+      <b>Warning</b> The parsing interface is subject to change.
+<p>
+
+      Implementation of small parts of
+      <a href=" http://www.ecma-international.org/publications/standards/Ecma-035.htm">ECMA-35</a>
+      and
+      <a href=" http://www.ecma-international.org/publications/standards/Ecma-048.htm">ECMA-48</a>,
+      as needed by terminal emulators in common use.<br>
+
+<pre><span id="VALdecode"><span class="keyword">val</span> decode</span> : <code class="type"><a href="Notty.html#TYPEuchar">uchar</a> list -> <a href="Notty.Unescape.html#TYPEevent">event</a> list</code></pre><div class="info ">
+<code class="code">decode us</code> are the events encoded by <code class="code">us</code>.
+<p>
+
+      <code class="code">us</code> are assumed to have been generated in a burst, and the end of the
+      list is taken to mean a pause.
+      Therefore, <code class="code">decode us1 @ decode us2 &lt;&gt; decode (us1 @ us2)</code> if <code class="code">us1</code> ends
+      with a partial escape sequence, including a lone <code class="code">\x1b</code>.
+<p>
+
+      Unsupported escape sequences are silently discarded.<br>
+</div>
+</body></html>

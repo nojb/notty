@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="next" href="Notty.I.html">
+<link rel="Up" href="Notty.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Notty" rel="Chapter" href="Notty.html">
+<link title="Notty_unix" rel="Chapter" href="Notty_unix.html">
+<link title="Notty_lwt" rel="Chapter" href="Notty_lwt.html"><link title="Colors" rel="Section" href="#1_Colors">
+<link title="Text styles" rel="Section" href="#1_Textstyles">
+<link title="Attribute construction and composition" rel="Section" href="#1_Attributeconstructionandcomposition">
+<link title="Core 16 colors" rel="Subsection" href="#corecolors">
+<link title="Extended colors" rel="Subsection" href="#2_Extendedcolors">
+<title>Notty.A</title>
+</head>
+<body>
+<div class="navbar">&nbsp;<a class="up" href="Notty.html" title="Notty">Up</a>
+&nbsp;<a class="post" href="Notty.I.html" title="Notty.I">Next</a>
+</div>
+<h1>Module <a href="type_Notty.A.html">Notty.A</a></h1>
+
+<pre><span class="keyword">module</span> A: <code class="code"><span class="keyword">sig</span></code> <a href="Notty.A.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info module top">
+<code class="code"><span class="constructor">A</span></code> is for attribute.
+<p>
+
+    Construction and composition of styling characteristics of text.
+<p>
+
+    Consult the <a href="Notty.html#basics">basics</a> for an overview.
+<p>
+
+    <b>TL;DR:</b> <code class="code"><span class="constructor">A</span>.(fg red ++ bg black ++ st bold)</code>.<br>
+</div>
+<hr width="100%">
+<br>
+<h1 id="1_Colors">Colors</h1><br>
+
+<pre><span id="TYPEcolor"><span class="keyword">type</span> <code class="type"></code>color</span> </pre>
+<div class="info ">
+One of 256 <em>Xterm-style</em> colors.
+<p>
+
+      <ul>
+<li>The first 16 are supported on almost all terminals. The names are
+         standardized, but the actual colors are not. The colors are often
+         user-definable.</li>
+<li>The next 216 form a 6*6*6 <em>color cube</em>.</li>
+<li>The final 24 are a <em>grayscale ramp</em>.</li>
+</ul>
+
+<p>
+
+      Colors outside of the core 16 are widely, but not universally supported.
+<p>
+
+      <b>Note</b> No attempt is made to remap colors depending on the
+      terminal. Colors not recognized by a particular terminal will simply be
+      ignored in the output.<br>
+</div>
+
+<br>
+<h2 id="corecolors">Core 16 colors</h2>
+<p>
+
+      The first 8 have their standard ANSI names.<br>
+
+<pre><span id="VALblack"><span class="keyword">val</span> black</span> : <code class="type"><a href="Notty.A.html#TYPEcolor">color</a></code></pre>
+<pre><span id="VALred"><span class="keyword">val</span> red</span> : <code class="type"><a href="Notty.A.html#TYPEcolor">color</a></code></pre>
+<pre><span id="VALgreen"><span class="keyword">val</span> green</span> : <code class="type"><a href="Notty.A.html#TYPEcolor">color</a></code></pre>
+<pre><span id="VALyellow"><span class="keyword">val</span> yellow</span> : <code class="type"><a href="Notty.A.html#TYPEcolor">color</a></code></pre>
+<pre><span id="VALblue"><span class="keyword">val</span> blue</span> : <code class="type"><a href="Notty.A.html#TYPEcolor">color</a></code></pre>
+<pre><span id="VALmagenta"><span class="keyword">val</span> magenta</span> : <code class="type"><a href="Notty.A.html#TYPEcolor">color</a></code></pre>
+<pre><span id="VALcyan"><span class="keyword">val</span> cyan</span> : <code class="type"><a href="Notty.A.html#TYPEcolor">color</a></code></pre>
+<pre><span id="VALwhite"><span class="keyword">val</span> white</span> : <code class="type"><a href="Notty.A.html#TYPEcolor">color</a></code></pre>
+<pre><span id="VALlightblack"><span class="keyword">val</span> lightblack</span> : <code class="type"><a href="Notty.A.html#TYPEcolor">color</a></code></pre>
+<pre><span id="VALlightred"><span class="keyword">val</span> lightred</span> : <code class="type"><a href="Notty.A.html#TYPEcolor">color</a></code></pre>
+<pre><span id="VALlightgreen"><span class="keyword">val</span> lightgreen</span> : <code class="type"><a href="Notty.A.html#TYPEcolor">color</a></code></pre>
+<pre><span id="VALlightyellow"><span class="keyword">val</span> lightyellow</span> : <code class="type"><a href="Notty.A.html#TYPEcolor">color</a></code></pre>
+<pre><span id="VALlightblue"><span class="keyword">val</span> lightblue</span> : <code class="type"><a href="Notty.A.html#TYPEcolor">color</a></code></pre>
+<pre><span id="VALlightmagenta"><span class="keyword">val</span> lightmagenta</span> : <code class="type"><a href="Notty.A.html#TYPEcolor">color</a></code></pre>
+<pre><span id="VALlightcyan"><span class="keyword">val</span> lightcyan</span> : <code class="type"><a href="Notty.A.html#TYPEcolor">color</a></code></pre>
+<pre><span id="VALlightwhite"><span class="keyword">val</span> lightwhite</span> : <code class="type"><a href="Notty.A.html#TYPEcolor">color</a></code></pre><br>
+<h2 id="2_Extendedcolors">Extended colors</h2><br>
+
+<pre><span id="VALrgb"><span class="keyword">val</span> rgb</span> : <code class="type">r:int -> g:int -> b:int -> <a href="Notty.A.html#TYPEcolor">color</a></code></pre><div class="info ">
+<code class="code">rgb ~r:red ~g:green ~b:blue</code> is an extended color from the color cube.
+      All three components must be in the range <code class="code">0-5</code>.<br>
+<b>Raises</b> <code>Invalid_argument</code> if a component is outside the range.<br>
+</div>
+
+<pre><span id="VALgray"><span class="keyword">val</span> gray</span> : <code class="type">int -> <a href="Notty.A.html#TYPEcolor">color</a></code></pre><div class="info ">
+<code class="code">gray level</code> is an extended color from the grayscale ramp. <code class="code">level</code> must be
+      in the range <code class="code">0-23</code>.<br>
+<b>Raises</b> <code>Invalid_argument</code> if the <code class="code">level</code> is outside the range.<br>
+</div>
+<br>
+<h1 id="1_Textstyles">Text styles</h1><br>
+
+<pre><span id="TYPEstyle"><span class="keyword">type</span> <code class="type"></code>style</span> </pre>
+<div class="info ">
+Additional text properties.<br>
+</div>
+
+
+<pre><span id="VALbold"><span class="keyword">val</span> bold</span> : <code class="type"><a href="Notty.A.html#TYPEstyle">style</a></code></pre>
+<pre><span id="VALitalic"><span class="keyword">val</span> italic</span> : <code class="type"><a href="Notty.A.html#TYPEstyle">style</a></code></pre>
+<pre><span id="VALunderline"><span class="keyword">val</span> underline</span> : <code class="type"><a href="Notty.A.html#TYPEstyle">style</a></code></pre>
+<pre><span id="VALblink"><span class="keyword">val</span> blink</span> : <code class="type"><a href="Notty.A.html#TYPEstyle">style</a></code></pre>
+<pre><span id="VALreverse"><span class="keyword">val</span> reverse</span> : <code class="type"><a href="Notty.A.html#TYPEstyle">style</a></code></pre><br>
+<h1 id="1_Attributeconstructionandcomposition">Attribute construction and composition</h1><br>
+
+<pre><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> = <code class="type"><a href="Notty.html#TYPEattr">attr</a></code> </pre>
+
+
+<pre><span id="VALempty"><span class="keyword">val</span> empty</span> : <code class="type"><a href="Notty.html#TYPEattr">attr</a></code></pre><div class="info ">
+<code class="code">empty</code> is the attribute with the default foreground and background color
+      and empty style set.<br>
+</div>
+
+<pre><span id="VAL(++)"><span class="keyword">val</span> (++)</span> : <code class="type"><a href="Notty.html#TYPEattr">attr</a> -> <a href="Notty.html#TYPEattr">attr</a> -> <a href="Notty.html#TYPEattr">attr</a></code></pre><div class="info ">
+<code class="code">a1 ++ a2</code> is the concatenation of <code class="code">a1</code> and <code class="code">a2</code>, the attribute that has
+      <code class="code">a2</code>'s foreground (resp. background), unless <em>unset</em>, in which case it
+      is <code class="code">a1</code>'s, and the union of both style sets.
+<p>
+
+      <code class="code">++</code> and <code class="code">empty</code> form a monoid. <code class="code">++</code> is left-associative.<br>
+</div>
+
+<pre><span id="VALfg"><span class="keyword">val</span> fg</span> : <code class="type"><a href="Notty.A.html#TYPEcolor">color</a> -> <a href="Notty.html#TYPEattr">attr</a></code></pre><div class="info ">
+<code class="code">fg c</code> is <code class="code">empty</code> with foreground <code class="code">c</code>.<br>
+</div>
+
+<pre><span id="VALbg"><span class="keyword">val</span> bg</span> : <code class="type"><a href="Notty.A.html#TYPEcolor">color</a> -> <a href="Notty.html#TYPEattr">attr</a></code></pre><div class="info ">
+<code class="code">bg c</code> is <code class="code">empty</code> with background <code class="code">c</code>.<br>
+</div>
+
+<pre><span id="VALst"><span class="keyword">val</span> st</span> : <code class="type"><a href="Notty.A.html#TYPEstyle">style</a> -> <a href="Notty.html#TYPEattr">attr</a></code></pre><div class="info ">
+<code class="code">st s</code> is <code class="code">empty</code> with style <code class="code">s</code>.<br>
+</div>
+</body></html>

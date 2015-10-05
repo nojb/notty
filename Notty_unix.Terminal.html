@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="Up" href="Notty_unix.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Notty" rel="Chapter" href="Notty.html">
+<link title="Notty_unix" rel="Chapter" href="Notty_unix.html">
+<link title="Notty_lwt" rel="Chapter" href="Notty_lwt.html"><link title="Construction and destruction" rel="Section" href="#1_Constructionanddestruction">
+<link title="Commands" rel="Section" href="#cmds">
+<link title="Input" rel="Section" href="#1_Input">
+<link title="Properties" rel="Section" href="#1_Properties">
+<link title="Window size change notifications" rel="Section" href="#1_Windowsizechangenotifications">
+<title>Notty_unix.Terminal</title>
+</head>
+<body>
+<div class="navbar">&nbsp;<a class="up" href="Notty_unix.html" title="Notty_unix">Up</a>
+&nbsp;</div>
+<h1>Module <a href="type_Notty_unix.Terminal.html">Notty_unix.Terminal</a></h1>
+
+<pre><span class="keyword">module</span> Terminal: <code class="code"><span class="keyword">sig</span></code> <a href="Notty_unix.Terminal.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info module top">
+Terminal IO abstraction for fullscreen, interactive applications.
+<p>
+
+    This module provides both input and output. It assumes exlusive ownership of
+    the IO streams between <a href="Notty_unix.Terminal.html#VALcreate">initialization</a> and <a href="Notty_unix.Terminal.html#VALrelease">shutdown</a>.<br>
+</div>
+<hr width="100%">
+
+<pre><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> </pre>
+<div class="info ">
+Representation of the terminal, giving structured access to IO.<br>
+</div>
+
+<br>
+<h1 id="1_Constructionanddestruction">Construction and destruction</h1><br>
+
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">?dispose:bool -><br>       ?mouse:bool -><br>       ?input:Unix.file_descr -><br>       ?output:Unix.file_descr -> unit -> <a href="Notty_unix.Terminal.html#TYPEt">t</a></code></pre><div class="info ">
+<code class="code">create ~dispose ~mouse ~input ~output ()</code> creates a fresh <a href="Notty_unix.Terminal.html#TYPEt">terminal</a>.
+<p>
+
+      <code class="code">create</code> has the following side effects:
+      <ul>
+<li><code class="code"><span class="constructor">Unix</span>.tcsetattr</code> is applied to <code class="code">input</code> to disable <em>echo</em> and <em>         canonical mode</em>.</li>
+<li><code class="code">output</code> is set to <em>alternate screen mode</em>, the cursor is hidden, and
+         mouse reporting is enabled, using the appropriate control sequences.</li>
+<li><code class="code"><span class="constructor">SIGWINCH</span></code> signal, normally ignored, is handled. From then on, resizing
+         the window will interrupt blocking syscalls with the <code class="code"><span class="constructor">Unix</span>.<span class="constructor">Unix_error</span></code>
+         <code class="code"><span class="constructor">EINTR</span></code> exception.</li>
+</ul>
+
+<p>
+
+      <code class="code">~dispose</code> arranges for automatic <a href="Notty_unix.Terminal.html#VALrelease">cleanup</a> of the terminal
+      before the process terminates. The downside is that a reference to this
+      terminal is retained until the program exits. Defaults to <code class="code"><span class="keyword">true</span></code>.
+<p>
+
+      <code class="code">~mouse</code> activates mouse reporting. Defaults to <code class="code"><span class="keyword">true</span></code>.
+<p>
+
+      <code class="code">~input</code> is the input file descriptor. Defaults to <code class="code">stdin</code>.
+<p>
+
+      <code class="code">~output</code> is the output file descriptor. Defaults to <code class="code">stdout</code>.<br>
+</div>
+
+<pre><span id="VALrelease"><span class="keyword">val</span> release</span> : <code class="type"><a href="Notty_unix.Terminal.html#TYPEt">t</a> -> unit</code></pre><div class="info ">
+Dispose of this terminal. Original behavior of input is reinstated,
+      cursor is restored, mouse reporting disabled, and alternate mode is
+      terminated.
+<p>
+
+      It is an error to use the <a href="Notty_unix.Terminal.html#cmds">commands</a> on a released terminal.
+      <code class="code">release</code> itself is idempotent.<br>
+</div>
+<br>
+<h1 id="cmds">Commands</h1><br>
+
+<pre><span id="VALimage"><span class="keyword">val</span> image</span> : <code class="type"><a href="Notty_unix.Terminal.html#TYPEt">t</a> -> <a href="Notty.html#TYPEimage">Notty.image</a> -> unit</code></pre><div class="info ">
+Sets a new <a href="Notty.html#TYPEimage"><code class="code">image</code></a> and redraws the terminal.<br>
+</div>
+
+<pre><span id="VALrefresh"><span class="keyword">val</span> refresh</span> : <code class="type"><a href="Notty_unix.Terminal.html#TYPEt">t</a> -> unit</code></pre><div class="info ">
+Redraws the terminal. Useful if the output might have become garbled.<br>
+</div>
+
+<pre><span id="VALcursor"><span class="keyword">val</span> cursor</span> : <code class="type"><a href="Notty_unix.Terminal.html#TYPEt">t</a> -> (int * int) option -> unit</code></pre><div class="info ">
+Sets and redraws the cursor.
+<p>
+
+      <code class="code"><span class="constructor">None</span></code> hides it. <code class="code"><span class="constructor">Some</span> (x, y)</code> places it at column <code class="code">x</code> and row <code class="code">y</code>, with
+      the origin at <code class="code">(1, 1)</code>, mapping to the upper-left corner.<br>
+</div>
+<br>
+<h1 id="1_Input">Input</h1><br>
+
+<pre><span id="VALinput"><span class="keyword">val</span> input</span> : <code class="type"><a href="Notty_unix.Terminal.html#TYPEt">t</a> -><br>       [ `End<br>       | `Key of<br>           [ `Backspace<br>           | `Delete<br>           | `Down<br>           | `End<br>           | `Enter<br>           | `Escape<br>           | `Fn of int<br>           | `Home<br>           | `Insert<br>           | `Left<br>           | `Page_dn<br>           | `Page_up<br>           | `Right<br>           | `Tab<br>           | `Uchar of <a href="Notty.html#TYPEuchar">Notty.uchar</a><br>           | `Up ] * <a href="Notty.Unescape.html#TYPEmods">Notty.Unescape.mods</a><br>       | `Mouse of<br>           [ `Drag | `Press of <a href="Notty.Unescape.html#TYPEbutton">Notty.Unescape.button</a> | `Release ] * (int * int) *<br>           <a href="Notty.Unescape.html#TYPEmods">Notty.Unescape.mods</a><br>       | `Resize of int * int ]</code></pre><div class="info ">
+Wait for new input.
+<p>
+
+      <code class="code">input t</code> can be:
+      <ul>
+<li><code class="code"><span class="keywordsign">#</span><span class="constructor">Unescape</span>.event</code> with <a href="Notty.Unescape.html#TYPEevent"><code class="code"><span class="constructor">Notty</span>.<span class="constructor">Unescape</span>.event</code></a> from the input fd;</li>
+<li><code class="code"><span class="keywordsign">`</span><span class="constructor">End</span></code> if the input fd is closed, or the terminal was released; or</li>
+<li><code class="code"><span class="keywordsign">`</span><span class="constructor">Resize</span> (cols * rows)</code> giving the current size of the output tty, if a
+         <code class="code"><span class="constructor">SIGWINCH</span></code> was delivered before or during this call to <code class="code">input</code>.</li>
+</ul>
+
+<p>
+
+      <b>Note</b> <code class="code">input</code> is buffered. Calls to <code class="code">input</code> can either block or
+      immediately return. Use <a href="Notty_unix.Terminal.html#VALinput_pending"><code class="code"><span class="constructor">Notty_unix</span>.<span class="constructor">Terminal</span>.input_pending</code></a> to detect when the next call
+      would not block.<br>
+</div>
+
+<pre><span id="VALinput_pending"><span class="keyword">val</span> input_pending</span> : <code class="type"><a href="Notty_unix.Terminal.html#TYPEt">t</a> -> bool</code></pre><div class="info ">
+<code class="code">input_pending t</code> is <code class="code"><span class="keyword">true</span></code> if the next call to <code class="code">input</code> would not block
+      and the terminal has not yet been released<br>
+</div>
+<br>
+<h1 id="1_Properties">Properties</h1><br>
+
+<pre><span id="VALsize"><span class="keyword">val</span> size</span> : <code class="type"><a href="Notty_unix.Terminal.html#TYPEt">t</a> -> int * int</code></pre><div class="info ">
+<code class="code">size t</code> is the current size of the terminal's output tty.<br>
+</div>
+<br>
+<h1 id="1_Windowsizechangenotifications">Window size change notifications</h1><br>
+
+<pre><span class="keyword">module</span> <a href="Notty_unix.Terminal.Winch.html">Winch</a>: <code class="code"><span class="keyword">sig</span></code> <a href="Notty_unix.Terminal.Winch.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info">
+Manual <code class="code"><span class="constructor">SIGWINCH</span></code> handling.
+</div>
+</body></html>
