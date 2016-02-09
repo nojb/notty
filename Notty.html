@@ -386,7 +386,7 @@ Parse and decode escape sequences in character streams.
 <span class="keyword">let</span>&nbsp;<span class="keyword">rec</span>&nbsp;update&nbsp;t&nbsp;state&nbsp;=<br>
 &nbsp;&nbsp;<span class="constructor">Term</span>.image&nbsp;t&nbsp;(img&nbsp;state);&nbsp;loop&nbsp;t&nbsp;state<br>
 <span class="keyword">and</span>&nbsp;loop&nbsp;t&nbsp;(double,&nbsp;n&nbsp;<span class="keyword">as</span>&nbsp;state)&nbsp;=<br>
-&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;<span class="constructor">Term</span>.input&nbsp;t&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;<span class="constructor">Term</span>.event&nbsp;t&nbsp;<span class="keyword">with</span><br>
 &nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Key</span>&nbsp;(<span class="keywordsign">`</span><span class="constructor">Enter</span>,_)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;()<br>
 &nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Key</span>&nbsp;(<span class="keywordsign">`</span><span class="constructor">Arrow</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Left</span>,_)&nbsp;&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;update&nbsp;t&nbsp;(double,&nbsp;max&nbsp;1&nbsp;(n&nbsp;-&nbsp;1))<br>
 &nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Key</span>&nbsp;(<span class="keywordsign">`</span><span class="constructor">Arrow</span>&nbsp;<span class="keywordsign">`</span><span class="constructor">Right</span>,_)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;update&nbsp;t&nbsp;(double,&nbsp;min&nbsp;8&nbsp;(n&nbsp;+&nbsp;1))<br>
@@ -401,7 +401,7 @@ update&nbsp;t&nbsp;(<span class="keyword">false</span>,&nbsp;1);<br>
 <p>
 
     The program uses a fullscreen <a href="Notty_unix.Term.html">terminal</a> and loops reading
-    the <a href="Notty_unix.Term.html#VALinput">input</a>. LEFT and RIGHT control the iteration
+    the <a href="Notty_unix.Term.html#VALevent">input</a>. LEFT and RIGHT control the iteration
     count, and SPACE toggles double-drawing. Resizing the window causes a
     redraw. When the loop exits on ENTER, the terminal is
     <a href="Notty_unix.Term.html#VALrelease">cleaned up</a>.

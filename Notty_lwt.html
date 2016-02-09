@@ -42,6 +42,6 @@ Terminal IO with concurrency.
 <h1 id="inline">Inline output</h1><br>
 
 <pre><span id="VALwinsize"><span class="keyword">val</span> winsize</span> : <code class="type">Lwt_unix.file_descr -> (int * int) option</code></pre>
-<pre><span id="VALoutput_image_size"><span class="keyword">val</span> output_image_size</span> : <code class="type">?cap:<a href="Notty.Cap.html#TYPEt">Cap.t</a> -><br>       ?fd:Lwt_unix.file_descr -> (int * int -> <a href="Notty.html#TYPEimage">image</a>) -> unit Lwt.t</code></pre>
-<pre><span id="VALoutput_image"><span class="keyword">val</span> output_image</span> : <code class="type">?cap:<a href="Notty.Cap.html#TYPEt">Cap.t</a> -> ?fd:Lwt_unix.file_descr -> <a href="Notty.html#TYPEimage">image</a> -> unit Lwt.t</code></pre>
-<pre><span id="VALoutput_image_endline"><span class="keyword">val</span> output_image_endline</span> : <code class="type">?cap:<a href="Notty.Cap.html#TYPEt">Cap.t</a> -> ?fd:Lwt_unix.file_descr -> <a href="Notty.html#TYPEimage">image</a> -> unit Lwt.t</code></pre></body></html>
+<pre><span id="VALoutput_image_size"><span class="keyword">val</span> output_image_size</span> : <code class="type">?cap:<a href="Notty.Cap.html#TYPEt">Cap.t</a> -><br>       ?clear:bool -><br>       ?fd:Lwt_unix.file_descr -> (int * int -> <a href="Notty.html#TYPEimage">image</a>) -> unit Lwt.t</code></pre>
+<pre><span id="VALoutput_image"><span class="keyword">val</span> output_image</span> : <code class="type">?cap:<a href="Notty.Cap.html#TYPEt">Cap.t</a> -><br>       ?clear:bool -> ?fd:Lwt_unix.file_descr -> <a href="Notty.html#TYPEimage">image</a> -> unit Lwt.t</code></pre>
+<pre><span id="VALoutput_image_endline"><span class="keyword">val</span> output_image_endline</span> : <code class="type">?cap:<a href="Notty.Cap.html#TYPEt">Cap.t</a> -><br>       ?clear:bool -> ?fd:Lwt_unix.file_descr -> <a href="Notty.html#TYPEimage">image</a> -> unit Lwt.t</code></pre></body></html>

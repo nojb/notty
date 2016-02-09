@@ -10,4 +10,9 @@
 <link title="Notty_lwt" rel="Chapter" href="Notty_lwt.html"><title>Notty.Cap</title>
 </head>
 <body>
-<code class="code"><span class="keyword">sig</span>&nbsp;<span class="keyword">type</span>&nbsp;t&nbsp;<span class="keyword">val</span>&nbsp;ansi&nbsp;:&nbsp;<span class="constructor">Notty</span>.<span class="constructor">Cap</span>.t&nbsp;<span class="keyword">val</span>&nbsp;dumb&nbsp;:&nbsp;<span class="constructor">Notty</span>.<span class="constructor">Cap</span>.t&nbsp;<span class="keyword">end</span></code></body></html>
+<code class="code"><span class="keyword">sig</span><br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;ansi&nbsp;:&nbsp;<span class="constructor">Notty</span>.<span class="constructor">Cap</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;dumb&nbsp;:&nbsp;<span class="constructor">Notty</span>.<span class="constructor">Cap</span>.t<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;clear&nbsp;:&nbsp;<span class="constructor">Notty</span>.<span class="constructor">Cap</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Buffer</span>.t&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit<br>
+<span class="keyword">end</span></code></body></html>

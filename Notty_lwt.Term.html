@@ -12,7 +12,7 @@
 <link title="Notty_unix" rel="Chapter" href="Notty_unix.html">
 <link title="Notty_lwt" rel="Chapter" href="Notty_lwt.html"><link title="Construction and destruction" rel="Section" href="#1_Constructionanddestruction">
 <link title="Commands" rel="Section" href="#1_Commands">
-<link title="Input" rel="Section" href="#1_Input">
+<link title="Events" rel="Section" href="#1_Events">
 <link title="Properties" rel="Section" href="#1_Properties">
 <link title="Window size change notifications" rel="Section" href="#1_Windowsizechangenotifications">
 <title>Notty_lwt.Term</title>
@@ -52,7 +52,7 @@ Terminal IO with concurrency.
 <pre><span id="VALimage"><span class="keyword">val</span> image</span> : <code class="type"><a href="Notty_lwt.Term.html#TYPEt">t</a> -> <a href="Notty.html#TYPEimage">image</a> -> unit Lwt.t</code></pre>
 <pre><span id="VALrefresh"><span class="keyword">val</span> refresh</span> : <code class="type"><a href="Notty_lwt.Term.html#TYPEt">t</a> -> unit Lwt.t</code></pre>
 <pre><span id="VALcursor"><span class="keyword">val</span> cursor</span> : <code class="type"><a href="Notty_lwt.Term.html#TYPEt">t</a> -> (int * int) option -> unit Lwt.t</code></pre><br>
-<h1 id="1_Input">Input</h1><br>
+<h1 id="1_Events">Events</h1><br>
 
 <pre><span id="VALevents"><span class="keyword">val</span> events</span> : <code class="type"><a href="Notty_lwt.Term.html#TYPEt">t</a> -><br>       [ `Key of<br>           [ `Arrow of [ `Down | `Left | `Right | `Up ]<br>           | `Backspace<br>           | `Delete<br>           | `End<br>           | `Enter<br>           | `Escape<br>           | `Function of int<br>           | `Home<br>           | `Insert<br>           | `Page of [ `Down | `Up ]<br>           | `Tab<br>           | `Uchar of <a href="Notty.html#TYPEuchar">uchar</a> ] * <a href="Notty.Unescape.html#TYPEmods">Unescape.mods</a><br>       | `Mouse of<br>           [ `Drag | `Press of <a href="Notty.Unescape.html#TYPEbutton">Unescape.button</a> | `Release ] * (int * int) *<br>           <a href="Notty.Unescape.html#TYPEmods">Unescape.mods</a><br>       | `Resize of int * int ] Lwt_stream.t</code></pre><div class="info ">
 <code class="code">events t</code> is the stream of incoming events.

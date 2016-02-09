@@ -130,6 +130,11 @@ Pure text output.
       and empty style set.
 </div>
 </td></tr>
+<tr><td><a href="Notty_unix.Term.html#VALevent">event</a> [<a href="Notty_unix.Term.html">Notty_unix.Term</a>]</td>
+<td><div class="info">
+Wait for a new event.
+</div>
+</td></tr>
 <tr><td><a href="Notty_lwt.Term.html#VALevents">events</a> [<a href="Notty_lwt.Term.html">Notty_lwt.Term</a>]</td>
 <td><div class="info">
 <code class="code">events t</code> is the stream of incoming events.
@@ -183,11 +188,6 @@ Pure text output.
 <code class="code">image t i</code> sets <code class="code">i</code> as <code class="code">t</code>'s current image and redraws the terminal.
 </div>
 </td></tr>
-<tr><td><a href="Notty_unix.Term.html#VALinput">input</a> [<a href="Notty_unix.Term.html">Notty_unix.Term</a>]</td>
-<td><div class="info">
-Wait for new input.
-</div>
-</td></tr>
 <tr><td><a href="Notty.Unescape.html#VALinput">input</a> [<a href="Notty.Unescape.html">Notty.Unescape</a>]</td>
 <td><div class="info">
 <code class="code">input t buffer i len</code> feeds <code class="code">len</code> bytes of <code class="code">string</code> into <code class="code">t</code>, starting
@@ -233,14 +233,14 @@ Wait for new input.
 <td></td></tr>
 <tr><td><a href="Notty_unix.html#VALoutput_image">output_image</a> [<a href="Notty_unix.html">Notty_unix</a>]</td>
 <td><div class="info">
-<code class="code">output_image ~cap ~chan i</code> writes the image <code class="code">i</code> to <code class="code">chan</code>.
+<code class="code">output_image ~cap ~clear ~chan i</code> writes the image <code class="code">i</code> to <code class="code">chan</code>.
 </div>
 </td></tr>
 <tr><td><a href="Notty_lwt.html#VALoutput_image_endline">output_image_endline</a> [<a href="Notty_lwt.html">Notty_lwt</a>]</td>
 <td></td></tr>
 <tr><td><a href="Notty_unix.html#VALoutput_image_endline">output_image_endline</a> [<a href="Notty_unix.html">Notty_unix</a>]</td>
 <td><div class="info">
-<code class="code">print_image_endline ~cap ~chan i</code> is <code class="code">output_image ~cap ~chan i</code>
+<code class="code">print_image_endline ~cap ~clear ~chan i</code> is <code class="code">output_image ~cap ~chan i</code>
     followed by a newline.
 </div>
 </td></tr>
@@ -248,8 +248,9 @@ Wait for new input.
 <td></td></tr>
 <tr><td><a href="Notty_unix.html#VALoutput_image_size">output_image_size</a> [<a href="Notty_unix.html">Notty_unix</a>]</td>
 <td><div class="info">
-<code class="code">output_image_size ~cap ~chan f</code> is <code class="code">output_image ~cap ~chan (f size)</code>
-    where <code class="code">size</code> are <code class="code">chan</code>'s current <a href="Notty_unix.html#VALwinsize">output dimensions</a>.
+<code class="code">output_image_size ~cap ~clear ~chan f</code> is
+    <code class="code">output_image ~cap ~chan (f size)</code> where <code class="code">size</code> are <code class="code">chan</code>'s current
+    <a href="Notty_unix.html#VALwinsize">output dimensions</a>.
 </div>
 </td></tr>
 <tr><td align="left"><br>P</td></tr>
@@ -260,7 +261,7 @@ Wait for new input.
 </td></tr>
 <tr><td><a href="Notty_unix.Term.html#VALpending">pending</a> [<a href="Notty_unix.Term.html">Notty_unix.Term</a>]</td>
 <td><div class="info">
-<code class="code">pending t</code> is <code class="code"><span class="keyword">true</span></code> if the next call to <a href="Notty_unix.Term.html#VALinput"><code class="code">input</code></a> would not
+<code class="code">pending t</code> is <code class="code"><span class="keyword">true</span></code> if the next call to <a href="Notty_unix.Term.html#VALevent"><code class="code">event</code></a> would not
       block and the terminal has not yet been released.
 </div>
 </td></tr>

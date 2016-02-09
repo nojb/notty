@@ -50,35 +50,29 @@ Terminal IO abstraction for fullscreen, interactive applications.
     backing tty, or <code class="code"><span class="constructor">None</span></code>, when <code class="code">fd</code> is not backed by a tty.<br>
 </div>
 
-<pre><span id="VALoutput_image"><span class="keyword">val</span> output_image</span> : <code class="type">?cap:<a href="Notty.Cap.html#TYPEt">Cap.t</a> -> ?chan:out_channel -> <a href="Notty.html#TYPEimage">image</a> -> unit</code></pre><div class="info ">
-<code class="code">output_image ~cap ~chan i</code> writes the image <code class="code">i</code> to <code class="code">chan</code>.
+<pre><span id="VALoutput_image"><span class="keyword">val</span> output_image</span> : <code class="type">?cap:<a href="Notty.Cap.html#TYPEt">Cap.t</a> -><br>       ?clear:bool -> ?chan:out_channel -> <a href="Notty.html#TYPEimage">image</a> -> unit</code></pre><div class="info ">
+<code class="code">output_image ~cap ~clear ~chan i</code> writes the image <code class="code">i</code> to <code class="code">chan</code>.
 <p>
 
     The image is displayed in its full height. If the output is a tty, image
     width is clipped to the output width, otherwise, full width is used.
 <p>
 
-    <code class="code">~chan</code> defaults to <code class="code">stdout</code>.
-<p>
-
     <code class="code">~cap</code> is the <a href="Notty_unix.html#caps">optional</a> terminal capability set.
 <p>
 
-    <b>Note</b> No leading or trailing characters are produced, so:
-    <ul>
-<li>an image 1-cell high can be a part of a line of output, preceded and/or
-       followed by other output;</li>
-<li>if the cursor is on on the first column, image of any height can be
-       correctly printed; and</li>
-<li>outputting an image higher than 1 when the cursor has advanced
-       past the first column will result in misaligned output.</li>
-</ul>
-<br>
+    <code class="code">~clear</code> repositions the cursor to the beginning of the line and clears is.
+    Otherwise, the output continues from the current position. Defaults to
+    <code class="code"><span class="keyword">false</span></code>.
+<p>
+
+    <code class="code">~chan</code> defaults to <code class="code">stdout</code>.<br>
 </div>
 
-<pre><span id="VALoutput_image_size"><span class="keyword">val</span> output_image_size</span> : <code class="type">?cap:<a href="Notty.Cap.html#TYPEt">Cap.t</a> -><br>       ?chan:out_channel -> (int * int -> <a href="Notty.html#TYPEimage">image</a>) -> unit</code></pre><div class="info ">
-<code class="code">output_image_size ~cap ~chan f</code> is <code class="code">output_image ~cap ~chan (f size)</code>
-    where <code class="code">size</code> are <code class="code">chan</code>'s current <a href="Notty_unix.html#VALwinsize">output dimensions</a>.
+<pre><span id="VALoutput_image_size"><span class="keyword">val</span> output_image_size</span> : <code class="type">?cap:<a href="Notty.Cap.html#TYPEt">Cap.t</a> -><br>       ?clear:bool -><br>       ?chan:out_channel -> (int * int -> <a href="Notty.html#TYPEimage">image</a>) -> unit</code></pre><div class="info ">
+<code class="code">output_image_size ~cap ~clear ~chan f</code> is
+    <code class="code">output_image ~cap ~chan (f size)</code> where <code class="code">size</code> are <code class="code">chan</code>'s current
+    <a href="Notty_unix.html#VALwinsize">output dimensions</a>.
 <p>
 
     If <code class="code">chan</code> is not backed by a tty, as a matter of convenience, <code class="code">f</code> is
@@ -86,8 +80,8 @@ Terminal IO abstraction for fullscreen, interactive applications.
     whether the output has a well-defined size.<br>
 </div>
 
-<pre><span id="VALoutput_image_endline"><span class="keyword">val</span> output_image_endline</span> : <code class="type">?cap:<a href="Notty.Cap.html#TYPEt">Cap.t</a> -> ?chan:out_channel -> <a href="Notty.html#TYPEimage">image</a> -> unit</code></pre><div class="info ">
-<code class="code">print_image_endline ~cap ~chan i</code> is <code class="code">output_image ~cap ~chan i</code>
+<pre><span id="VALoutput_image_endline"><span class="keyword">val</span> output_image_endline</span> : <code class="type">?cap:<a href="Notty.Cap.html#TYPEt">Cap.t</a> -><br>       ?clear:bool -> ?chan:out_channel -> <a href="Notty.html#TYPEimage">image</a> -> unit</code></pre><div class="info ">
+<code class="code">print_image_endline ~cap ~clear ~chan i</code> is <code class="code">output_image ~cap ~chan i</code>
     followed by a newline.<br>
 </div>
 <br>
